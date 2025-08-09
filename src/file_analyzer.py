@@ -1,5 +1,5 @@
 """
-Multi-language source file analyzer for MDTD Test Engine
+Source file analyzer supporting multiple languages for the MDTD Test Engine
 Analyzes source code in various programming languages to extract testable components
 """
 
@@ -86,7 +86,7 @@ class FileAnalyzer:
                 results['files'].append(file_results)
                 self._merge_results(results, file_results)
         else:
-            # Analyze directory recursively
+            # Recursively analyze the directory
             for file_path in source_path.rglob('*'):
                 if file_path.is_file():
                     extension = file_path.suffix
@@ -110,7 +110,7 @@ class FileAnalyzer:
             language = self.config.get_language_for_extension(extension)
 
             if not language or language not in self.analyzers:
-                logger.warning(f"Unsupported language for file: {file_path}")
+                logger.warning(f"Skipping unsupported file: {file_path}")
                 return None
 
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
