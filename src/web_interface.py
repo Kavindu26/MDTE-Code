@@ -117,7 +117,10 @@ class WebInterface:
                         </h1>
                         <p class="mb-0 opacity-75">Model-Driven Test Development Interface</p>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto d-flex gap-2">
+                        <button class="btn btn-secondary" onclick="toggleTheme()">
+                            <i class="fas fa-adjust me-1"></i> Toggle Theme
+                        </button>
                         <button class="btn btn-light" onclick="exportResults()">
                             <i class="fas fa-download me-1"></i> Export Results
                         </button>
@@ -600,7 +603,36 @@ class WebInterface:
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-"""
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #212529;
+            color: #f8f9fa;
+        }
+
+        body.dark-mode .test-case-container {
+            background: #343a40;
+            border-color: #495057;
+        }
+
+        body.dark-mode .expected-output,
+        body.dark-mode .test-results {
+            background-color: #343a40;
+            border-color: #495057;
+            color: #f8f9fa;
+        }
+
+        body.dark-mode header,
+        body.dark-mode footer,
+        body.dark-mode .navbar {
+            background-color: #343a40 !important;
+            color: #f8f9fa;
+        }
+
+        body.dark-mode .nav-link {
+            color: #f8f9fa !important;
+        }
+        """
 
     def _generate_javascript_code(self) -> str:
         """Generate JavaScript code for interface functionality"""
@@ -614,7 +646,11 @@ class WebInterface:
             skipped: 0,
             total: 0
         };
-        
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+        }
+
         // Initialize the interface
         document.addEventListener('DOMContentLoaded', function() {
             showDashboard();

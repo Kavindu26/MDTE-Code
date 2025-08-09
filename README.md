@@ -12,6 +12,7 @@ This Python tool reviews source code across multiple programming languages and a
   - Error Condition Testing
   - State Transition Testing
 - **Interactive HTML5 Interfaces**: Creates beautiful web-based test execution environments
+
 - **Comprehensive Reporting**: In-depth code quality analysis with actionable recommendations
 - **Timestamped Output**: Stores results in `generated_YYYYMMDD_HHMMSS` directories
 
