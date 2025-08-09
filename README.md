@@ -1,6 +1,6 @@
 # AI-Assisted Model-Driven Test Development (MDTD) Prototype
 
-A Python-based system that analyzes source code in multiple programming languages and automatically generates comprehensive test cases using AI, creating interactive HTML5 web interfaces for test execution.
+This Python tool reviews source code across multiple programming languages and automatically builds thorough test cases using AI, delivering interactive HTML5 web interfaces for execution.
 
 ## Features
 
@@ -12,8 +12,9 @@ A Python-based system that analyzes source code in multiple programming language
   - Error Condition Testing
   - State Transition Testing
 - **Interactive HTML5 Interfaces**: Creates beautiful web-based test execution environments
-- **Comprehensive Reporting**: Detailed code quality analysis and recommendations
-- **Timestamped Output**: Organized results in `generated_YYYYMMDD_HHMMSS` directories
+- **Dark Mode Toggle**: Switch between light and dark themes in the generated web interface
+- **Comprehensive Reporting**: In-depth code quality analysis with actionable recommendations
+- **Timestamped Output**: Stores results in `generated_YYYYMMDD_HHMMSS` directories
 
 ## Prerequisites
 
@@ -70,7 +71,7 @@ python main.py /path/to/your/project --output my_tests
 
 ## Generated Output
 
-Each run creates a timestamped directory (`generated_YYYYMMDD_HHMMSS`) containing:
+Every run creates a timestamped folder (`generated_YYYYMMDD_HHMMSS`) containing:
 
 - **`test_interface.html`** - Interactive web-based test execution interface
 - **`source_analysis.json`** - Detailed source code analysis results

@@ -56,40 +56,42 @@ class MDTDTestEngine:
             Dict containing analysis results and generated tests
         """
         try:
-            logger.info("Starting analysis of: {}".format(source_path))
+            logger.info(f"Initiating analysis for {source_path}")
 
-            # Step 1: Analyze source files
-            analysis_result = await self.file_analyzer.analyze(source_path)
-            logger.info("Analysis completed. Found {} functions".format(len(analysis_result.get('functions', []))))
+            # Step 1: Perform source file analysis
+            analysis_results = await self.file_analyzer.analyze(source_path)
+            logger.info(
+                f"Analysis completed; found {len(analysis_results.get('functions', []))} functions"
+            )
 
-            # Step 2: Extract test scenarios using MDTD principles
-            test_scenarios = await self.extract_test_scenarios(analysis_result)
-            logger.info("Generated {} test scenarios".format(len(test_scenarios)))
+            # Step 2: Derive test scenarios using MDTD principles
+            test_scenarios = await self.extract_test_scenarios(analysis_results)
+            logger.info(f"Created {len(test_scenarios)} test scenarios")
 
             # Step 3: Generate tests using LLM
             generated_tests = await self.llm_controller.generate_comprehensive_tests(
-                analysis_result, test_scenarios
+                analysis_results, test_scenarios
             )
-            logger.info("AI test generation completed")
+            logger.info("Completed AI-based test generation")
 
             # Step 4: Create test cases for web interface
             web_test_cases = await self.test_generator.create_web_test_cases(
                 generated_tests, output_format
             )
 
-            # Step 5: Generate HTML interface
+            # Step 5: Build HTML interface
             html_interface = await self.web_interface.create_test_interface(web_test_cases)
 
-            # Step 6: Generate comprehensive report
+            # Step 6: Produce comprehensive report
             report = await self.report_generator.generate_report({
-                'source_analysis': analysis_result,
+                'source_analysis': analysis_results,
                 'test_scenarios': test_scenarios,
                 'generated_tests': generated_tests,
                 'web_interface': html_interface
             })
 
             return {
-                'analysis': analysis_result,
+                'analysis': analysis_results,
                 'scenarios': test_scenarios,
                 'tests': generated_tests,
                 'web_interface': html_interface,
@@ -98,7 +100,7 @@ class MDTDTestEngine:
             }
 
         except Exception as e:
-            logger.error("Error in test generation: {}".format(str(e)))
+            logger.error(f"Test generation failed: {e}")
             return {
                 'error': str(e),
                 'success': False
@@ -281,14 +283,14 @@ async def main():
 
         output_dir.mkdir(exist_ok=True)
 
-        logger.info(f"Creating output directory: {output_dir}")
+        logger.info(f"Preparing output directory at {output_dir}")
 
-        # Save HTML interface
+        # Persist HTML interface
         html_file = output_dir / 'test_interface.html'
         with open(html_file, 'w', encoding='utf-8') as f:
             f.write(result['web_interface'])
 
-        # Save analysis results
+        # Persist analysis results
         analysis_file = output_dir / 'source_analysis.json'
         with open(analysis_file, 'w', encoding='utf-8') as f:
             # Convert dataclass objects to dict for JSON serialization
@@ -327,17 +329,17 @@ async def main():
 
             json.dump(serializable_analysis, f, indent=2, default=str)
 
-        # Save test scenarios
+        # Persist test scenarios
         scenarios_file = output_dir / 'test_scenarios.json'
         with open(scenarios_file, 'w', encoding='utf-8') as f:
             json.dump(result.get('scenarios', []), f, indent=2, default=str)
 
-        # Save generated tests
+        # Persist generated tests
         tests_file = output_dir / 'generated_tests.json'
         with open(tests_file, 'w', encoding='utf-8') as f:
             json.dump(result.get('tests', {}), f, indent=2, default=str)
 
-        # Save report (with error handling)
+        # Persist report (with error handling)
         try:
             if result.get('report'):
                 report_file = output_dir / 'detailed_report.json'
@@ -362,7 +364,7 @@ async def main():
             with open(summary_file, 'w', encoding='utf-8') as f:
                 json.dump(simple_report, f, indent=2, default=str)
 
-        logger.info(f"Test generation completed successfully!")
+        logger.info("Test generation completed successfully.")
         logger.info(f"Output directory: {output_dir}")
         logger.info(f"HTML interface: {html_file}")
         logger.info(f"Analysis results: {analysis_file}")
